@@ -1,0 +1,3 @@
+https://github.com/timoniq/vkbottle/archive/v3-uploaders.zip
+https://github.com/timoniq/vkbottle-types/archive/master.zip
+envparse
