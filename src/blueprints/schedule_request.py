@@ -12,18 +12,25 @@ message_del_api_err = 924
 @bp.on.message(text=["Расписание", "расписание", "!расписание", "/расписание"])
 async def schedule_command_handler(message: Message):
     await message.answer(
-        "&#128218; Выберите ваш курс с помощью клавиатуры",
+        "{0} {1}".format(
+            "&#128218; Выберите ваш курс с помощью клавиатуры",
+            "или напишите номер курса вручную",
+        ),
         keyboard=generate_keyboard(),
     )
 
 
+@bp.on.message(text=["1", "2", "3", "4"])
+@bp.on.message(text=["1 курс", "2 курс", "3 курс", "4 курс"])
 @bp.on.message(payload_contains={"command": "schedule_request"})
 async def schedule_keyboard_handler(message: Message):
     message_id = await message.answer("&#8987; Загрузка расписания...")
-    course = message.get_payload_json()["course"]
+    course = message.get_payload_json()["course"] or str(message.text)
+    if course in {"1", "2", "3", "4"}:
+        course = "{0} курс".format(course)
     text, images_links = await get_schedule(message.peer_id, bp.api, course)
     await message.answer(
-        "&#128218; {}".format(text),
+        "&#128218; {0}".format(text),
         attachment=",".join(images_links),
     )
     if message_id:
