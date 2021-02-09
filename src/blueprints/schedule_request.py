@@ -35,8 +35,8 @@ async def schedule_keyboard_handler(message: Message):
     logger.info("[{0}] Запрос расписания {1}а.".format(message.id, course))
     logger.info("[{0}] User: id{1} - ChatID: {2}".format(
         message.id,
-        message.user_id,
         message.from_id,
+        message.peer_id,
     ))
     text, images_links = await get_schedule(message.peer_id, bp.api, course)
     await message.answer(
