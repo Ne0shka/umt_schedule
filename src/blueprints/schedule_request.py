@@ -1,4 +1,4 @@
-import loguru
+from loguru import logger
 from vkbottle.bot import Blueprint, Message
 from vkbottle.exception_factory import VKAPIError
 
@@ -25,17 +25,25 @@ async def schedule_command_handler(message: Message):
 @bp.on.message(payload_contains={"command": "schedule_request"})
 async def schedule_keyboard_handler(message: Message):
     message_id = await message.answer("&#8987; Загрузка расписания...")
-    if message.get_payload_json():
-        course = message.get_payload_json().get("course")
+    payload = message.get_payload_json()
+    if payload:
+        course = payload.get("course")
     else:
         course = message.text
     if course in {"1", "2", "3", "4"}:
         course = "{0} курс".format(course)
+    logger.info("[{0}] Запрос расписания {1}а.".format(message.id, course))
+    logger.info("[{0}] User: id{1} - ChatID: {2}".format(
+        message.id,
+        message.user_id,
+        message.from_id,
+    ))
     text, images_links = await get_schedule(message.peer_id, bp.api, course)
     await message.answer(
         "&#128218; {0}".format(text),
         attachment=",".join(images_links),
     )
+    logger.info("[{0}] Расписание отправлено!".format(message.id))
     if message_id:
         try:
             await bp.api.messages.delete(
@@ -43,5 +51,5 @@ async def schedule_keyboard_handler(message: Message):
                 delete_for_all=1,
             )
         except VKAPIError(message_del_api_err):
-            loguru.error("Ошибка удаления сообщения!")
-            loguru.error(message)
+            logger.warning("Ошибка удаления сообщения!")
+            logger.warning(message)
