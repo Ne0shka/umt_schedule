@@ -25,7 +25,7 @@ async def schedule_command_handler(message: Message):
 @bp.on.message(payload_contains={"command": "schedule_request"})
 async def schedule_keyboard_handler(message: Message):
     message_id = await message.answer("&#8987; Загрузка расписания...")
-    course = message.get_payload_json()["course"] or str(message.text)
+    course = message.get_payload_json().get("course") or message.text
     if course in {"1", "2", "3", "4"}:
         course = "{0} курс".format(course)
     text, images_links = await get_schedule(message.peer_id, bp.api, course)
