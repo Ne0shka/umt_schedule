@@ -9,6 +9,7 @@ bp = Blueprint(name="Расписание")
 message_del_api_err = 924
 
 
+@bp.on.message(payload_contains={"command": "start"})
 @bp.on.message(text=["Расписание", "расписание", "!расписание", "/расписание"])
 async def schedule_command_handler(message: Message):
     await message.answer(
