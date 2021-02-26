@@ -1,4 +1,4 @@
-aiohttp==3.7.3
+aiohttp==3.7.4
 bs4==0.0.1
 envparse==0.2.0
 loguru==0.5.3
