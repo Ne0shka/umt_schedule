@@ -2,6 +2,7 @@ aiohttp==3.7.4
 bs4==0.0.1
 envparse==0.2.0
 loguru==0.5.3
+lxml==4.6.2
 pdf2image==1.14.0
 ujson==4.0.1
 https://github.com/timoniq/vkbottle/archive/v3-uploaders.zip
