@@ -13,15 +13,15 @@ message_del_api_err = 924
 @bp.on.message(text=["Расписание", "расписание", "!расписание", "/расписание"])
 async def schedule_command_handler(message: Message):
     await message.answer(
-        "{0} {1}".format(
+        "{} {} {}".format(
             "&#128218; Выберите ваш курс с помощью клавиатуры",
-            "или напишите номер курса вручную",
+            "или напишите номер курса вручную\n",
+            "&#128218; Пример: 1 курс",
         ),
         keyboard=generate_keyboard(),
     )
 
 
-@bp.on.message(text=["1", "2", "3", "4"])
 @bp.on.message(text=["1 курс", "2 курс", "3 курс", "4 курс"])
 @bp.on.message(payload_contains={"command": "schedule_request"})
 async def schedule_keyboard_handler(message: Message):
@@ -41,7 +41,11 @@ async def schedule_keyboard_handler(message: Message):
     ))
     text, images_links = await get_schedule(message.peer_id, bp.api, course)
     await message.answer(
-        "&#128218; {0}".format(text),
+        "{} {} {}".format(
+            "&#128218;",
+            text,
+            "\nЧтобы снова запросить расписание - введите команду \"Расписание\""
+        ),
         attachment=",".join(images_links),
     )
     logger.info("[{0}] Расписание отправлено!".format(message.id))
