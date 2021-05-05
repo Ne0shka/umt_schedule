@@ -139,3 +139,6 @@ dmypy.json
 
 # poetry lock files
 poetry.lock
+
+# example configuration
+.env.example
