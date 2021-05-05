@@ -24,7 +24,7 @@ def setup_blueprints(bot: Bot):
 
 
 def setup_middlewares(bot: Bot):
-    bot.labeler.message_view.register_middleware(NoBotMiddleware())
+    bot.labeler.message_view.register_middleware(NoBotMiddleware)
 
 
 bot = init_bot()
